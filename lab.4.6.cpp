@@ -1,47 +1,69 @@
 #include <iostream>
-#include <iomanip>
 #include <cmath>
 using namespace std;
 
 int main()
 {
-    double xp, xk, x, dx, eps, a = 0, R = 0, S = 0;
-    int n = 0;
+    double P, S;
+    int i, k;
 
-    cout << "xp = "; cin >> xp;
-    cout << "xk = "; cin >> xk;
-    cout << "dx = "; cin >> dx;
-    cout << "eps = "; cin >> eps;
-
-    cout << fixed;
-    cout << "\n-------------------------------------------------\n";
-    cout << "|" << setw(7) << "x" << " |"
-         << setw(10) << "exp(-x)" << " |"
-         << setw(10) << "S" << " |"
-         << setw(5) << "n" << " |"
-         << endl;
-    cout << "-------------------------------------------------" << endl;
-
-    x = xp;
-    while (x <= xk)
+    // 1) while
+    P = 1;
+    i = 1;
+    while (i <= 15)
     {
-        n = 0; a = 1; S = a;
-        do {
-            n++;
-            R = -x / n;   // відношення a(n)/a(n-1) = -x/n
-            a *= R;       // наступний доданок
-            S += a;       // сума ряду
-        } while (fabs(a) >= eps);
-
-        cout << "|" << setw(7) << setprecision(2) << x << " |"
-             << setw(10) << setprecision(5) << exp(-x) << " |"
-             << setw(10) << setprecision(5) << S << " |"
-             << setw(5) << n << " |"
-             << endl;
-
-        x += dx;
+        S = 0;
+        k = 1;
+        while (k <= i)
+        {
+            S += 1.0 / k;
+            k++;
+        }
+        P *= (sin(1.*i)*sin(1.*i) + cos(1.*i)*cos(1.*i)*S) / (1.*i*i);
+        i++;
     }
-    cout << "-------------------------------------------------" << endl;
+    cout << P << endl;
+
+    // 2) do-while
+    P = 1;
+    i = 1;
+    do {
+        S = 0;
+        k = 1;
+        do {
+            S += 1.0 / k;
+            k++;
+        } while (k <= i);
+        P *= (sin(1.*i)*sin(1.*i) + cos(1.*i)*cos(1.*i)*S) / (1.*i*i);
+        i++;
+    } while (i <= 15);
+    cout << P << endl;
+
+    // 3) for (ascending)
+    P = 1;
+    for (i = 1; i <= 15; i++)
+    {
+        S = 0;
+        for (k = 1; k <= i; k++)
+        {
+            S += 1.0 / k;
+        }
+        P *= (sin(1.*i)*sin(1.*i) + cos(1.*i)*cos(1.*i)*S) / (1.*i*i);
+    }
+    cout << P << endl;
+
+    // 4) for (descending)
+    P = 1;
+    for (i = 15; i >= 1; i--)
+    {
+        S = 0;
+        for (k = i; k >= 1; k--)
+        {
+            S += 1.0 / k;
+        }
+        P *= (sin(1.*i)*sin(1.*i) + cos(1.*i)*cos(1.*i)*S) / (1.*i*i);
+    }
+    cout << P << endl;
 
     return 0;
 }
