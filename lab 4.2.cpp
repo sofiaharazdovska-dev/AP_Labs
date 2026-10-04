@@ -2,43 +2,54 @@
 #include <iomanip>
 #include <cmath>
 
-using namespace std;
-
 int main()
 {
-    double x, xp, xk, dx, A, B, y;
+    double x, xp, xk, dx, R, y;
 
-    cout << "xp = "; cin >> xp;
-    cout << "xk = "; cin >> xk;
-    cout << "dx = "; cin >> dx;
+    // Введення параметрів
+    std::cout << "R = "; std::cin >> R;
+    std::cout << "xp = "; std::cin >> xp;
+    std::cout << "xk = "; std::cin >> xk;
+    std::cout << "dx = "; std::cin >> dx;
 
-    cout << fixed;
-    cout << "---------------------------" << endl;
-    cout << "|" << setw(5) << "x" << "     |"
-         << setw(7) << "y" << "       |" << endl;
-    cout << "---------------------------" << endl;
+    std::cout << std::fixed;
+    std::cout << "---------------------------" << std::endl;
+    std::cout << "|" << std::setw(5) << "x" << "     |"
+              << std::setw(7) << "y" << "       |" << std::endl;
+    std::cout << "---------------------------" << std::endl;
 
     x = xp;
     while (x <= xk)
-   
-         A = 1 / x + 4;
-
-        if (x < 1)
-            B = 0.65 * x + 8;
-        else if (x < 5)
-            B = atan((x + 6.1) / 2) + exp(x);
-        else
-            B = sqrt(1 + sqrt(x));
-
-         y = A - B;
-
-        cout << "|" << setw(7) << setprecision(2) << x
-            << "   |" << setw(10) << setprecision(3) << y
-            << "    |" << endl;
+    {
+        if (x <= -8)
+        {
+            y = -R;
         }
-        x += dx;
+        else if (x > -8 && x < -R)
+        {
+            y = R * (x + R) / (8 - R);
+        }
+        else if (x >= -R && x <= R)
+        {
+            y = -std::sqrt(R * R - x * x);
+        }
+        else if (x > R && x < 5)
+        {
+            y = 2 * (x - R) / (5 - R);
+        }
+        else
+        {
+            y = 3;
+        }
+
+        std::cout << "|" << std::setw(7) << std::setprecision(2) << x
+                  << "   |" << std::setw(10) << std::setprecision(3) << y
+                  << "    |" << std::endl;
+
+        x += dx; // Важливо: всередині циклу while
     }
-    cout << "---------------------------" << endl;
+
+    std::cout << "---------------------------" << std::endl;
 
     return 0;
 }
